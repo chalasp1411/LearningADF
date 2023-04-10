@@ -1,0 +1,41 @@
+{
+	"name": "SalesINDdataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "SalesIND_2020_MAY_01.txt",
+				"container": "newcontainer"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "startdate  ",
+				"type": "String"
+			},
+			{
+				"name": " salesitem",
+				"type": "String"
+			},
+			{
+				"name": " country",
+				"type": "String"
+			},
+			{
+				"name": " quantity",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

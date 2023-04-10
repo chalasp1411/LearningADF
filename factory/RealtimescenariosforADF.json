@@ -1,0 +1,9 @@
+{
+	"name": "RealtimescenariosforADF",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "d7364c18-4f0a-4f3b-b916-4d73ad98f967",
+		"tenantId": "9a8d48e7-e86f-465a-97dc-408debac5ede"
+	}
+}

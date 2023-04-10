@@ -1,0 +1,17 @@
+{
+	"name": "ds_adk_table",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Adventureworksazuresql",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "SalesLT",
+			"table": "Customer"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

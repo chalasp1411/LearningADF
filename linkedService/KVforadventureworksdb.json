@@ -1,0 +1,11 @@
+{
+	"name": "KVforadventureworksdb",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://kv-learning-002.vault.azure.net/"
+		}
+	}
+}
