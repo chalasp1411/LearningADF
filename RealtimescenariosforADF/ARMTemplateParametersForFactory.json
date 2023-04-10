@@ -1,0 +1,39 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "RealtimescenariosforADF"
+		},
+		"AzureBlobStorage1_connectionString": {
+			"value": ""
+		},
+		"AzureBlobStorage2_connectionString": {
+			"value": ""
+		},
+		"AzureSqlDatabase1_connectionString": {
+			"value": ""
+		},
+		"AzureSqlDatabase2_connectionString": {
+			"value": ""
+		},
+		"SqlServer1_connectionString": {
+			"value": ""
+		},
+		"Adventureworksazuresql_properties_typeProperties_connectionString_secretName": {
+			"value": "Adventureworksdbconnectionstring"
+		},
+		"KVforadventureworksdb_properties_typeProperties_baseUrl": {
+			"value": "https://kv-learning-002.vault.azure.net/"
+		},
+		"RestService1_properties_typeProperties_url": {
+			"value": "https://dummy.restapiexample.com/api/v1/employee/"
+		},
+		"RestService2_properties_typeProperties_url": {
+			"value": "https://dummy.restapiexample.com/api/v1/employee/"
+		},
+		"lsforstaorageaccount_properties_typeProperties_connectionString_secretName": {
+			"value": "kvforstorageaccount"
+		}
+	}
+}
