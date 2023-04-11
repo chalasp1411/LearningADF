@@ -10,8 +10,14 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "customer",
-				"folderPath": "Staging",
+				"fileName": {
+					"value": "@activity('lkforuspGetCopyActivitySQLToADLS').output.firstRow.CopyActivitySQLSinkFileName",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@activity('lkforuspGetCopyActivitySQLToADLS').output.firstRow.CopyActivitySQLSinkFolderPath",
+					"type": "Expression"
+				},
 				"container": {
 					"value": "@activity('lkforuspGetCopyActivitySQLToADLS').output.firstRow.CopyActivitySQLSinkContainer",
 					"type": "Expression"
