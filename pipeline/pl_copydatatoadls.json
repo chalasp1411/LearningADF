@@ -5,7 +5,14 @@
 			{
 				"name": "copydatatoadls",
 				"type": "Copy",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "lkforuspGetCopyActivitySQLToADLS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -17,6 +24,10 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "@activity('lkforuspGetCopyActivitySQLToADLS').output.firstRow.CopyActivitySQLQuery",
+							"type": "Expression"
+						},
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -53,8 +64,51 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "lkforuspGetCopyActivitySQLToADLS",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderStoredProcedureName": "[dbo].[uspGetCopyActivitySQLToADLS]",
+						"storedProcedureParameters": {
+							"CopyActivitySQLTable": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().parameters.CopyActivitySQLTable",
+									"type": "Expression"
+								}
+							}
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "ds_metadatadb",
+						"type": "DatasetReference"
+					}
+				}
 			}
 		],
+		"parameters": {
+			"CopyActivitySQLTable": {
+				"type": "string",
+				"defaultValue": "SalesLT.Address"
+			},
+			"CopyActivitySQLDBConnectionString": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"lastPublishTime": "2023-04-07T16:13:12Z"
 	},

@@ -1,13 +1,12 @@
 {
-	"name": "ds_adk_table",
+	"name": "ds_metadatadb",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "Adventureworksazuresql",
+			"referenceName": "AzureSqlDatabase1",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
 		"type": "AzureSqlTable",
 		"schema": []
-	},
-	"type": "Microsoft.DataFactory/factories/datasets"
+	}
 }

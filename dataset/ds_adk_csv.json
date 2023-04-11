@@ -12,7 +12,10 @@
 				"type": "AzureBlobStorageLocation",
 				"fileName": "customer",
 				"folderPath": "Staging",
-				"container": "commondata"
+				"container": {
+					"value": "@activity('lkforuspGetCopyActivitySQLToADLS').output.firstRow.CopyActivitySQLSinkContainer",
+					"type": "Expression"
+				}
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",

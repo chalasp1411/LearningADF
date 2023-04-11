@@ -1,10 +1,6 @@
 {
 	"name": "RestResource1",
 	"properties": {
-		"linkedServiceName": {
-			"referenceName": "RestService2",
-			"type": "LinkedServiceReference"
-		},
 		"parameters": {
 			"pdatasetparameter": {
 				"type": "string"
