@@ -1,6 +1,5 @@
 {
 	"name": "Adventureworksazuresql",
-	"type": "Microsoft.DataFactory/factories/linkedservices",
 	"properties": {
 		"annotations": [],
 		"type": "AzureSqlDatabase",
@@ -11,8 +10,12 @@
 					"referenceName": "KVforadventureworksdb",
 					"type": "LinkedServiceReference"
 				},
-				"secretName": "Adventureworksdbconnectionstring"
+				"secretName": {
+					"value": "@pipeline().parameters.CopyActivitySQLDBConnectionString",
+					"type": "Expression"
+				}
 			}
 		}
-	}
+	},
+	"type": "Microsoft.DataFactory/factories/linkedservices"
 }
