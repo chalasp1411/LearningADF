@@ -1,0 +1,25 @@
+{
+	"name": "AzureSqlDatabase3",
+	"properties": {
+		"parameters": {
+			"secret": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"connectionString": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "KVforadventureworksdb",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": {
+					"value": "@linkedService().secret",
+					"type": "Expression"
+				}
+			}
+		}
+	}
+}
