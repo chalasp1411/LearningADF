@@ -106,7 +106,8 @@
 				"defaultValue": "SalesLT.Address"
 			},
 			"CopyActivitySQLDBConnectionString": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "kvforstorageaccount"
 			}
 		},
 		"annotations": [],
