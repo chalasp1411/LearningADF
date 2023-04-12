@@ -19,29 +19,17 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase1'"
 		},
-		"AzureSqlDatabase2_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase2'"
-		},
 		"SqlServer1_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'SqlServer1'"
 		},
 		"Adventureworksazuresql_properties_typeProperties_connectionString_secretName": {
 			"type": "string",
-			"defaultValue": "Adventureworksdbconnectionstring"
+			"defaultValue": "@pipeline().parameters.CopyActivitySQLDBConnectionString"
 		},
 		"KVforadventureworksdb_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://kv-learning-002.vault.azure.net/"
-		},
-		"RestService1_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://dummy.restapiexample.com/api/v1/employee/"
-		},
-		"RestService2_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://dummy.restapiexample.com/api/v1/employee/"
 		},
 		"lsforstaorageaccount_properties_typeProperties_connectionString_secretName": {
 			"type": "string",
@@ -53,14 +41,14 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/pl_copydatatoadls')]",
+			"name": "[concat(parameters('factoryName'), '/pl_copydataforeachloop')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "copydatatoadls",
-						"type": "Copy",
+						"name": "uspGetCopyActivityExecutionList",
+						"type": "Lookup",
 						"dependsOn": [],
 						"policy": {
 							"timeout": "0.12:00:00",
@@ -73,6 +61,106 @@
 						"typeProperties": {
 							"source": {
 								"type": "AzureSqlSource",
+								"sqlReaderStoredProcedureName": "[[dbo].[uspGetCopyActivityExecutionList]",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "ds_metadatadb",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					},
+					{
+						"name": "foreach_alltables",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "uspGetCopyActivityExecutionList",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('uspGetCopyActivityExecutionList').output.value",
+								"type": "Expression"
+							},
+							"isSequential": false,
+							"activities": [
+								{
+									"name": "Executingchildpipeline",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "pl_copydatatoadls",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"CopyActivitySQLTable": {
+												"value": "@item().CopyActivitySQLTable",
+												"type": "Expression"
+											},
+											"CopyActivitySQLDBConnectionString": {
+												"value": "@item().CopyActivitySQLDBConnectionString",
+												"type": "Expression"
+											}
+										}
+									}
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_metadatadb')]",
+				"[concat(variables('factoryId'), '/pipelines/pl_copydatatoadls')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pl_copydatatoadls')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "copydatatoadls",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "lkforuspGetCopyActivitySQLToADLS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "@activity('lkforuspGetCopyActivitySQLToADLS').output.firstRow.CopyActivitySQLQuery",
+									"type": "Expression"
+								},
 								"queryTimeout": "02:00:00",
 								"partitionOption": "None"
 							},
@@ -111,46 +199,64 @@
 								"parameters": {}
 							}
 						]
+					},
+					{
+						"name": "lkforuspGetCopyActivitySQLToADLS",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderStoredProcedureName": "[[dbo].[uspGetCopyActivitySQLToADLS]",
+								"storedProcedureParameters": {
+									"CopyActivitySQLTable": {
+										"type": "String",
+										"value": {
+											"value": "@pipeline().parameters.CopyActivitySQLTable",
+											"type": "Expression"
+										}
+									}
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "ds_metadatadb",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
 					}
 				],
 				"policy": {
 					"elapsedTimeMetric": {},
 					"cancelAfter": {}
 				},
+				"parameters": {
+					"CopyActivitySQLTable": {
+						"type": "string",
+						"defaultValue": "SalesLT.Address"
+					},
+					"CopyActivitySQLDBConnectionString": {
+						"type": "string",
+						"defaultValue": "kvforstorageaccount"
+					}
+				},
 				"annotations": [],
 				"lastPublishTime": "2023-04-07T16:13:12Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ds_adk_table')]",
-				"[concat(variables('factoryId'), '/datasets/ds_adk_csv')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/RestResource1')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "RestService2",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"pdatasetparameter": {
-						"type": "string"
-					}
-				},
-				"annotations": [],
-				"type": "RestResource",
-				"typeProperties": {
-					"relativeUrl": {
-						"value": "@dataset().pdatasetparameter",
-						"type": "Expression"
-					}
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/RestService2')]"
+				"[concat(variables('factoryId'), '/datasets/ds_adk_csv')]",
+				"[concat(variables('factoryId'), '/datasets/ds_metadatadb')]"
 			]
 		},
 		{
@@ -263,9 +369,18 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"fileName": "customer",
-						"folderPath": "Staging",
-						"container": "commondata"
+						"fileName": {
+							"value": "@activity('lkforuspGetCopyActivitySQLToADLS').output.firstRow.CopyActivitySQLSinkFileName",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "@activity('lkforuspGetCopyActivitySQLToADLS').output.firstRow.CopyActivitySQLSinkFolderPath",
+							"type": "Expression"
+						},
+						"container": {
+							"value": "@activity('lkforuspGetCopyActivitySQLToADLS').output.firstRow.CopyActivitySQLSinkContainer",
+							"type": "Expression"
+						}
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
@@ -290,13 +405,28 @@
 				"annotations": [],
 				"type": "AzureSqlTable",
 				"schema": [],
-				"typeProperties": {
-					"schema": "SalesLT",
-					"table": "Customer"
-				}
+				"typeProperties": {}
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/Adventureworksazuresql')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_metadatadb')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
 			]
 		},
 		{
@@ -313,7 +443,10 @@
 							"referenceName": "KVforadventureworksdb",
 							"type": "LinkedServiceReference"
 						},
-						"secretName": "[parameters('Adventureworksazuresql_properties_typeProperties_connectionString_secretName')]"
+						"secretName": {
+							"value": "[parameters('Adventureworksazuresql_properties_typeProperties_connectionString_secretName')]",
+							"type": "Expression"
+						}
 					}
 				}
 			},
@@ -361,19 +494,6 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase2')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureSqlDatabase",
-				"typeProperties": {
-					"connectionString": "[parameters('AzureSqlDatabase2_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/KVforadventureworksdb')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -382,36 +502,6 @@
 				"type": "AzureKeyVault",
 				"typeProperties": {
 					"baseUrl": "[parameters('KVforadventureworksdb_properties_typeProperties_baseUrl')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/RestService1')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "RestService",
-				"typeProperties": {
-					"url": "[parameters('RestService1_properties_typeProperties_url')]",
-					"enableServerCertificateValidation": true,
-					"authenticationType": "Anonymous"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/RestService2')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "RestService",
-				"typeProperties": {
-					"url": "[parameters('RestService2_properties_typeProperties_url')]",
-					"enableServerCertificateValidation": true,
-					"authenticationType": "Anonymous"
 				}
 			},
 			"dependsOn": []

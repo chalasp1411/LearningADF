@@ -19,29 +19,17 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase1'"
 		},
-		"AzureSqlDatabase2_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase2'"
-		},
 		"SqlServer1_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'SqlServer1'"
 		},
 		"Adventureworksazuresql_properties_typeProperties_connectionString_secretName": {
 			"type": "string",
-			"defaultValue": "Adventureworksdbconnectionstring"
+			"defaultValue": "@pipeline().parameters.CopyActivitySQLDBConnectionString"
 		},
 		"KVforadventureworksdb_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://kv-learning-002.vault.azure.net/"
-		},
-		"RestService1_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://dummy.restapiexample.com/api/v1/employee/"
-		},
-		"RestService2_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://dummy.restapiexample.com/api/v1/employee/"
 		},
 		"lsforstaorageaccount_properties_typeProperties_connectionString_secretName": {
 			"type": "string",
@@ -83,20 +71,11 @@
 					"AzureSqlDatabase1_connectionString": {
 						"value": "[parameters('AzureSqlDatabase1_connectionString')]"
 					},
-					"AzureSqlDatabase2_connectionString": {
-						"value": "[parameters('AzureSqlDatabase2_connectionString')]"
-					},
 					"SqlServer1_connectionString": {
 						"value": "[parameters('SqlServer1_connectionString')]"
 					},
 					"KVforadventureworksdb_properties_typeProperties_baseUrl": {
 						"value": "[parameters('KVforadventureworksdb_properties_typeProperties_baseUrl')]"
-					},
-					"RestService1_properties_typeProperties_url": {
-						"value": "[parameters('RestService1_properties_typeProperties_url')]"
-					},
-					"RestService2_properties_typeProperties_url": {
-						"value": "[parameters('RestService2_properties_typeProperties_url')]"
 					},
 					"Adventureworksazuresql_properties_typeProperties_connectionString_secretName": {
 						"value": "[parameters('Adventureworksazuresql_properties_typeProperties_connectionString_secretName')]"
