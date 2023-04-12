@@ -28,7 +28,7 @@
 				}
 			},
 			{
-				"name": "ForEach1",
+				"name": "foreach_alltables",
 				"type": "ForEach",
 				"dependsOn": [
 					{
