@@ -69,7 +69,8 @@
 								"referenceName": "ds_metadatadb",
 								"type": "DatasetReference",
 								"parameters": {}
-							}
+							},
+							"firstRowOnly": false
 						}
 					},
 					{
