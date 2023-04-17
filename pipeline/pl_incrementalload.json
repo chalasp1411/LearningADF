@@ -25,7 +25,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "@activity('lkforuspGetCopyActivitySQLToADLS').output.firstRow.CopyActivitySQLQuery",
+							"value": "'@{activity('lkforuspGetCopyActivitySQLToADLS').output.firstRow.CopyActivitySQLQuery}'\nwhere '@{activity('lkforuspGetCopyActivitySQLToADLS').output.firstRow.watermarkcolumn}' > '@{activity('lkgetoldwatermarkvalue').output.firstRow.LogWaterMarkValue}' and <= '@{activity('lkgetnewwatermarkvalue').output.firstRow.Max_ModifiedDate}'\n",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
@@ -68,7 +68,20 @@
 			{
 				"name": "lkforuspGetCopyActivitySQLToADLS",
 				"type": "Lookup",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "lkgetoldwatermarkvalue",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "lkgetnewwatermarkvalue",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -149,7 +162,51 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "SELECT MAX(ModifiedDate) as Max_ModifiedDate FROM @{pipeline().parameters.CopyActivitySQLTable}",
+						"sqlReaderQuery": {
+							"value": "SELECT MAX(ModifiedDate) as Max_ModifiedDate FROM @{pipeline().parameters.CopyActivitySQLTable}",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "ds_metadatadb",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "lklogwatermarkvalue",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "copydatatoadls",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderStoredProcedureName": "[dbo].[LogWaterMarkValue]",
+						"storedProcedureParameters": {
+							"CopyActivitySQLTable": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().parameters.CopyActivitySQLTable",
+									"type": "Expression"
+								}
+							}
+						},
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
