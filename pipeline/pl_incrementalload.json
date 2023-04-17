@@ -25,7 +25,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "@{activity('lkforuspGetCopyActivitySQLToADLS').output.firstRow.CopyActivitySQLQuery}where'@{activity('lkforuspGetCopyActivitySQLToADLS').output.firstRow.watermarkcolumn}'>'@{activity('lkgetoldwatermarkvalue').output.firstRow.LogWaterMarkValue}' and<='@{activity('lkgetnewwatermarkvalue').output.firstRow.Max_ModifiedDate}'\n",
+							"value": "@{activity('lkforuspGetCopyActivitySQLToADLS').output.firstRow.CopyActivitySQLQuery} where'@{activity('lkforuspGetCopyActivitySQLToADLS').output.firstRow.watermarkcolumn}' > '@{activity('lkgetoldwatermarkvalue').output.firstRow.LogWaterMarkValue}' and '@{activity('lkforuspGetCopyActivitySQLToADLS').output.firstRow.watermarkcolumn}' <= '@{activity('lkgetnewwatermarkvalue').output.firstRow.Max_ModifiedDate}'\n",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
