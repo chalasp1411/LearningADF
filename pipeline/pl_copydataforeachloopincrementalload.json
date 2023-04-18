@@ -17,12 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderStoredProcedureName": "[dbo].[uspGetCopyActivitySQLToADLS]",
-						"storedProcedureParameters": {
-							"CopyActivitySQLTable": {
-								"type": "String"
-							}
-						},
+						"sqlReaderStoredProcedureName": "[dbo].[uspGetCopyActivityExecutionList]",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
