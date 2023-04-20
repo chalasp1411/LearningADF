@@ -59,7 +59,8 @@
 				"          employee_salary,",
 				"          id,",
 				"          profile_image",
-				"     )) ~> APItoADLS"
+				"     ),",
+				"     partitionBy('hash', 1)) ~> APItoADLS"
 			]
 		}
 	}
