@@ -10,8 +10,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "weather.csv",
-				"folderPath": "Staging/Weather",
+				"fileName": "Employee.csv",
+				"folderPath": "Staging/RestAPI",
 				"container": "commondata"
 			},
 			"columnDelimiter": ",",
