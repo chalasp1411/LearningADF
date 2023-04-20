@@ -1,0 +1,65 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_weatherdata",
+						"type": "DatasetReference"
+					},
+					"name": "dsRestAPI"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_WeatherAPIdata",
+						"type": "DatasetReference"
+					},
+					"name": "APItoADLS"
+				}
+			],
+			"transformations": [
+				{
+					"name": "flattenJson"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          body as (data as (employee_age as short, employee_name as string, employee_salary as integer, id as short, profile_image as string)[], message as string, status as string),",
+				"          headers as [string,string]",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     httpMethod: 'GET',",
+				"     timeout: 30,",
+				"     requestInterval: 0,",
+				"     paginationRules: ['supportRFC5988' -> 'true'],",
+				"     responseFormat: ['type' -> 'json', 'documentForm' -> 'documentPerLine']) ~> dsRestAPI",
+				"dsRestAPI foldDown(unroll(body.data, body.data),",
+				"     mapColumn(",
+				"          employee_age = body.data.employee_age,",
+				"          employee_name = body.data.employee_name,",
+				"          employee_salary = body.data.employee_salary,",
+				"          id = body.data.id,",
+				"          profile_image = body.data.profile_image",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> flattenJson",
+				"flattenJson sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     mapColumn(",
+				"          employee_age,",
+				"          employee_name,",
+				"          employee_salary,",
+				"          id,",
+				"          profile_image",
+				"     )) ~> APItoADLS"
+			]
+		}
+	}
+}
