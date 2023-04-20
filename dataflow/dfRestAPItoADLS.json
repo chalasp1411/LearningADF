@@ -50,6 +50,7 @@
 				"     skipDuplicateMapOutputs: false) ~> flattenJson",
 				"flattenJson sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     partitionFileNames:['Employees.csv'],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
 				"     mapColumn(",
