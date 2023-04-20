@@ -131,6 +131,96 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/pl_copydataforeachloopincrementalload')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "uspGetCopyActivityExecutionList",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderStoredProcedureName": "[[dbo].[uspGetCopyActivityExecutionList]",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "ds_metadatadb",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "foreach_alltables",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "uspGetCopyActivityExecutionList",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('uspGetCopyActivityExecutionList').output.value",
+								"type": "Expression"
+							},
+							"isSequential": false,
+							"activities": [
+								{
+									"name": "Executingchildpipeline",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "pl_incrementalload",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"CopyActivitySQLTable": {
+												"value": "@item().CopyActivitySQLTable",
+												"type": "Expression"
+											},
+											"CopyActivitySQLDBConnectionString": {
+												"value": "@item().CopyActivitySQLDBConnectionString",
+												"type": "Expression"
+											}
+										}
+									}
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_metadatadb')]",
+				"[concat(variables('factoryId'), '/pipelines/pl_incrementalload')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/pl_copydatatoadls')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -289,7 +379,7 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": {
-									"value": "@activity('lkforuspGetCopyActivitySQLToADLS').output.firstRow.CopyActivitySQLQuery",
+									"value": "@{activity('lkforuspGetCopyActivitySQLToADLS').output.firstRow.CopyActivitySQLQuery} where @{activity('lkforuspGetCopyActivitySQLToADLS').output.firstRow.watermarkcolumn} > '@{activity('lkgetoldwatermarkvalue').output.firstRow.LogWaterMarkValue}' and @{activity('lkforuspGetCopyActivitySQLToADLS').output.firstRow.watermarkcolumn} <= '@{activity('lkgetnewwatermarkvalue').output.firstRow.Max_ModifiedDate}'\n",
 									"type": "Expression"
 								},
 								"queryTimeout": "02:00:00",
@@ -334,7 +424,20 @@
 					{
 						"name": "lkforuspGetCopyActivitySQLToADLS",
 						"type": "Lookup",
-						"dependsOn": [],
+						"dependsOn": [
+							{
+								"activity": "lkgetoldwatermarkvalue",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "lkgetnewwatermarkvalue",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
 						"policy": {
 							"timeout": "0.12:00:00",
 							"retry": 0,
@@ -430,6 +533,42 @@
 								"parameters": {}
 							}
 						}
+					},
+					{
+						"name": "splogwatermarkvalue",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "copydatatoadls",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[LogWaterMarkValue]",
+							"storedProcedureParameters": {
+								"CopyActivitySQLTable": {
+									"value": {
+										"value": "@pipeline().parameters.CopyActivitySQLTable",
+										"type": "Expression"
+									},
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "AzureSqlDatabase1",
+							"type": "LinkedServiceReference"
+						}
 					}
 				],
 				"policy": {
@@ -443,7 +582,7 @@
 					},
 					"CopyActivitySQLDBConnectionString": {
 						"type": "string",
-						"defaultValue": "kvforstorageaccount"
+						"defaultValue": "Adventureworksdbconnectionstring"
 					}
 				},
 				"annotations": [],
@@ -452,7 +591,8 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ds_adk_table')]",
 				"[concat(variables('factoryId'), '/datasets/ds_adk_csv')]",
-				"[concat(variables('factoryId'), '/datasets/ds_metadatadb')]"
+				"[concat(variables('factoryId'), '/datasets/ds_metadatadb')]",
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
 			]
 		},
 		{
