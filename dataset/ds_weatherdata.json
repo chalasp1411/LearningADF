@@ -8,7 +8,7 @@
 		"annotations": [],
 		"type": "RestResource",
 		"typeProperties": {
-			"relativeUrl": "https://api.openweathermap.org/data/2.5/onecall?lat=33.441792&lon=-94.037689& exclude=hourly,daily&appid=71190e1b271e98a24090c85f89b236ed"
+			"relativeUrl": "https://dummy.restapiexample.com/api/v1/employees"
 		},
 		"schema": []
 	}
