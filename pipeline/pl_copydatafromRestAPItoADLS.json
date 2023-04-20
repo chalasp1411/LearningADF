@@ -41,170 +41,58 @@
 						"mappings": [
 							{
 								"source": {
-									"path": "$['lat']"
+									"path": "$['status']"
 								},
 								"sink": {
-									"name": "lat"
+									"name": "status"
 								}
 							},
 							{
 								"source": {
-									"path": "$['lon']"
+									"path": "$['data'][0]['id']"
 								},
 								"sink": {
-									"name": "lon"
+									"name": "id"
 								}
 							},
 							{
 								"source": {
-									"path": "$['timezone']"
+									"path": "$['data'][0]['employee_name']"
 								},
 								"sink": {
-									"name": "timezone"
+									"name": "employee_name"
 								}
 							},
 							{
 								"source": {
-									"path": "$['timezone_offset']"
+									"path": "$['data'][0]['employee_salary']"
 								},
 								"sink": {
-									"name": "timezone_offset"
+									"name": "employee_salary"
 								}
 							},
 							{
 								"source": {
-									"path": "$['current']['dt']"
+									"path": "$['data'][0]['employee_age']"
 								},
 								"sink": {
-									"name": "current_dt"
+									"name": "employee_age"
 								}
 							},
 							{
 								"source": {
-									"path": "$['current']['sunrise']"
+									"path": "$['data'][0]['profile_image']"
 								},
 								"sink": {
-									"name": "current_sunrise"
+									"name": "profile_image"
 								}
 							},
 							{
 								"source": {
-									"path": "$['current']['sunset']"
+									"path": "$['message']"
 								},
 								"sink": {
-									"name": "current_sunset"
-								}
-							},
-							{
-								"source": {
-									"path": "$['current']['temp']"
-								},
-								"sink": {
-									"name": "current_temp"
-								}
-							},
-							{
-								"source": {
-									"path": "$['current']['feels_like']"
-								},
-								"sink": {
-									"name": "current_feels_like"
-								}
-							},
-							{
-								"source": {
-									"path": "$['current']['pressure']"
-								},
-								"sink": {
-									"name": "current_pressure"
-								}
-							},
-							{
-								"source": {
-									"path": "$['current']['humidity']"
-								},
-								"sink": {
-									"name": "current_humidity"
-								}
-							},
-							{
-								"source": {
-									"path": "$['current']['dew_point']"
-								},
-								"sink": {
-									"name": "current_dew_point"
-								}
-							},
-							{
-								"source": {
-									"path": "$['current']['uvi']"
-								},
-								"sink": {
-									"name": "current_uvi"
-								}
-							},
-							{
-								"source": {
-									"path": "$['current']['clouds']"
-								},
-								"sink": {
-									"name": "current_clouds"
-								}
-							},
-							{
-								"source": {
-									"path": "$['current']['visibility']"
-								},
-								"sink": {
-									"name": "current_visibility"
-								}
-							},
-							{
-								"source": {
-									"path": "$['current']['wind_speed']"
-								},
-								"sink": {
-									"name": "current_wind_speed"
-								}
-							},
-							{
-								"source": {
-									"path": "$['current']['wind_deg']"
-								},
-								"sink": {
-									"name": "current_wind_deg"
-								}
-							},
-							{
-								"source": {
-									"path": "$['current']['weather'][0]['id']"
-								},
-								"sink": {
-									"name": "current_weather_id"
-								}
-							},
-							{
-								"source": {
-									"path": "$['current']['weather'][0]['main']"
-								},
-								"sink": {
-									"name": "current_weather_main"
-								}
-							},
-							{
-								"source": {
-									"path": "$['current']['weather'][0]['description']"
-								},
-								"sink": {
-									"name": "current_weather_description"
-								}
-							},
-							{
-								"source": {
-									"path": "$['current']['weather'][0]['icon']"
-								},
-								"sink": {
-									"name": "current_weather_con"
+									"name": "message"
 								}
 							}
 						],
