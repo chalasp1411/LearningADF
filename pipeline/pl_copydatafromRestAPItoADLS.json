@@ -35,7 +35,181 @@
 							"fileExtension": ".txt"
 						}
 					},
-					"enableStaging": false
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$['lat']"
+								},
+								"sink": {
+									"name": "lat"
+								}
+							},
+							{
+								"source": {
+									"path": "$['lon']"
+								},
+								"sink": {
+									"name": "lon"
+								}
+							},
+							{
+								"source": {
+									"path": "$['timezone']"
+								},
+								"sink": {
+									"name": "timezone"
+								}
+							},
+							{
+								"source": {
+									"path": "$['timezone_offset']"
+								},
+								"sink": {
+									"name": "timezone_offset"
+								}
+							},
+							{
+								"source": {
+									"path": "$['current']['dt']"
+								},
+								"sink": {
+									"name": "current_dt"
+								}
+							},
+							{
+								"source": {
+									"path": "$['current']['sunrise']"
+								},
+								"sink": {
+									"name": "current_sunrise"
+								}
+							},
+							{
+								"source": {
+									"path": "$['current']['sunset']"
+								},
+								"sink": {
+									"name": "current_sunset"
+								}
+							},
+							{
+								"source": {
+									"path": "$['current']['temp']"
+								},
+								"sink": {
+									"name": "current_temp"
+								}
+							},
+							{
+								"source": {
+									"path": "$['current']['feels_like']"
+								},
+								"sink": {
+									"name": "current_feels_like"
+								}
+							},
+							{
+								"source": {
+									"path": "$['current']['pressure']"
+								},
+								"sink": {
+									"name": "current_pressure"
+								}
+							},
+							{
+								"source": {
+									"path": "$['current']['humidity']"
+								},
+								"sink": {
+									"name": "current_humidity"
+								}
+							},
+							{
+								"source": {
+									"path": "$['current']['dew_point']"
+								},
+								"sink": {
+									"name": "current_dew_point"
+								}
+							},
+							{
+								"source": {
+									"path": "$['current']['uvi']"
+								},
+								"sink": {
+									"name": "current_uvi"
+								}
+							},
+							{
+								"source": {
+									"path": "$['current']['clouds']"
+								},
+								"sink": {
+									"name": "current_clouds"
+								}
+							},
+							{
+								"source": {
+									"path": "$['current']['visibility']"
+								},
+								"sink": {
+									"name": "current_visibility"
+								}
+							},
+							{
+								"source": {
+									"path": "$['current']['wind_speed']"
+								},
+								"sink": {
+									"name": "current_wind_speed"
+								}
+							},
+							{
+								"source": {
+									"path": "$['current']['wind_deg']"
+								},
+								"sink": {
+									"name": "current_wind_deg"
+								}
+							},
+							{
+								"source": {
+									"path": "$['current']['weather'][0]['id']"
+								},
+								"sink": {
+									"name": "current_weather_id"
+								}
+							},
+							{
+								"source": {
+									"path": "$['current']['weather'][0]['main']"
+								},
+								"sink": {
+									"name": "current_weather_main"
+								}
+							},
+							{
+								"source": {
+									"path": "$['current']['weather'][0]['description']"
+								},
+								"sink": {
+									"name": "current_weather_description"
+								}
+							},
+							{
+								"source": {
+									"path": "$['current']['weather'][0]['icon']"
+								},
+								"sink": {
+									"name": "current_weather_con"
+								}
+							}
+						],
+						"collectionReference": ""
+					}
 				},
 				"inputs": [
 					{
