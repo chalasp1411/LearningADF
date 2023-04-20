@@ -1,0 +1,24 @@
+{
+	"name": "ds_WeatherAPIdata",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "lsforstaorageaccount",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "weather.csv",
+				"folderPath": "Staging/Weather",
+				"container": "commondata"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}

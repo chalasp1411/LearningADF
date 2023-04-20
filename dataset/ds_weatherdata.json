@@ -1,0 +1,15 @@
+{
+	"name": "ds_weatherdata",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "lk_wetherrestAPI",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"typeProperties": {
+			"relativeUrl": "https://api.openweathermap.org/data/2.5/onecall?lat=33.441792&lon=-94.037689& exclude=hourly,daily&appid=71190e1b271e98a24090c85f89b236ed"
+		},
+		"schema": []
+	}
+}
