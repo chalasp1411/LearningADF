@@ -10,7 +10,7 @@
 					"referenceName": "KVforadventureworksdb",
 					"type": "LinkedServiceReference"
 				},
-				"secretName": "sqldbconnectionstring"
+				"secretName": "kvforstorageaccount"
 			}
 		}
 	},
