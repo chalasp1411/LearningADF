@@ -12,7 +12,7 @@
 				},
 				"secretName": "sqldbconnectionstring",
 				"secretVersion": {
-					"value": "@pipeline().parameters.CopyActivitySQLDBConnectionString",
+					"value": "@pipeline().parameters.CopyActivitySQLdestinationDBConnectionString",
 					"type": "Expression"
 				}
 			}
