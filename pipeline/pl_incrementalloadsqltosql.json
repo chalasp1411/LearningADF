@@ -36,9 +36,10 @@
 						"writeBehavior": "upsert",
 						"upsertSettings": {
 							"useTempDB": true,
-							"keys": [
-								"AddressID"
-							]
+							"keys": {
+								"value": "@array(activity('lkforuspGetCopyActivitySQLToADLS').output.firstRow.UpsertKeyColumn)",
+								"type": "Expression"
+							}
 						},
 						"sqlWriterUseTableLock": false,
 						"disableMetricsCollection": false
