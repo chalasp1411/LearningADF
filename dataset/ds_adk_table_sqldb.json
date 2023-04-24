@@ -1,8 +1,8 @@
 {
-	"name": "ds_adk_table_sqldbfwk",
+	"name": "ds_adk_table_sqldb",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "Adventureworksazuresql",
+			"referenceName": "lkforazuresqldb",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
