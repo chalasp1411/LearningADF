@@ -220,7 +220,7 @@
 			},
 			"CopyActivitySQLDBConnectionString": {
 				"type": "string",
-				"defaultValue": "adventureworksLT"
+				"defaultValue": "Adventureworksdbconnectionstring"
 			},
 			"CopyActivitySQLdestinationable": {
 				"type": "string",
