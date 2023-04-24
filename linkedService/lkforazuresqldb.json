@@ -10,8 +10,7 @@
 					"referenceName": "KVforadventureworksdb",
 					"type": "LinkedServiceReference"
 				},
-				"secretName": "sqldbconnectionstring",
-				"secretVersion": {
+				"secretName": {
 					"value": "@pipeline().parameters.CopyActivitySQLDBdestinationConnectionString",
 					"type": "Expression"
 				}
