@@ -1,0 +1,13 @@
+{
+	"name": "ds_adk_table_sqldbfwk",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Adventureworksazuresql",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
