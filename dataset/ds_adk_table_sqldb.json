@@ -2,17 +2,15 @@
 	"name": "ds_adk_table_sqldb",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "lkforazuresqldb",
+			"referenceName": "AzureSqlDatabase2",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
 		"type": "AzureSqlTable",
 		"schema": [],
 		"typeProperties": {
-			"schema": {
-				"value": "CopyActivitySQLdestinationable",
-				"type": "Expression"
-			}
+			"schema": "dbo",
+			"table": "Address"
 		}
 	},
 	"type": "Microsoft.DataFactory/factories/datasets"
