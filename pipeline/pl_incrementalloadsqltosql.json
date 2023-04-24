@@ -216,7 +216,7 @@
 		"parameters": {
 			"CopyActivitySQLTable": {
 				"type": "string",
-				"defaultValue": "[SalesLT].[Address]"
+				"defaultValue": "SalesLT.Address"
 			},
 			"CopyActivitySQLDBConnectionString": {
 				"type": "string",
