@@ -1,0 +1,17 @@
+{
+	"name": "SqlServer2",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "KVforadventureworksdb",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "sqldbfwkdbconnectionstring"
+			}
+		}
+	}
+}
