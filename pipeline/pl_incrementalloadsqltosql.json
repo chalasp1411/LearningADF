@@ -215,9 +215,17 @@
 		"parameters": {
 			"CopyActivitySQLTable": {
 				"type": "string",
-				"defaultValue": "Address"
+				"defaultValue": "SalesLT.Address"
 			},
 			"CopyActivitySQLDBConnectionString": {
+				"type": "string",
+				"defaultValue": "adventureworksLT"
+			},
+			"CopyActivitySQLTdestinationable": {
+				"type": "string",
+				"defaultValue": "Address"
+			},
+			"CopyActivitySQLDBdestinationConnectionString": {
 				"type": "string",
 				"defaultValue": "sqldb"
 			}
