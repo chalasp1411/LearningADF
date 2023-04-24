@@ -221,7 +221,7 @@
 				"type": "string",
 				"defaultValue": "adventureworksLT"
 			},
-			"CopyActivitySQLTdestinationable": {
+			"CopyActivitySQLdestinationable": {
 				"type": "string",
 				"defaultValue": "Address"
 			},
