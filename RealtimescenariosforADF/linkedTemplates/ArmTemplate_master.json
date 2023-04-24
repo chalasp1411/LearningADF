@@ -19,17 +19,33 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase1'"
 		},
-		"SqlServer1_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'SqlServer1'"
-		},
 		"Adventureworksazuresql_properties_typeProperties_connectionString_secretName": {
 			"type": "string",
 			"defaultValue": "@pipeline().parameters.CopyActivitySQLDBConnectionString"
 		},
+		"AzureSqlDatabase2_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "sqldbconnectionstring"
+		},
 		"KVforadventureworksdb_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://kv-learning-002.vault.azure.net/"
+		},
+		"SqlServer2_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "sqldbfwkdbconnectionstring"
+		},
+		"lk_azuresqldb_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "sqldbconnectionstring"
+		},
+		"lk_wetherrestAPI_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://dummy.restapiexample.com"
+		},
+		"lkforazuresqldb_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "@pipeline().parameters.CopyActivitySQLDBdestinationConnectionString"
 		},
 		"lsforstaorageaccount_properties_typeProperties_connectionString_secretName": {
 			"type": "string",
@@ -71,14 +87,26 @@
 					"AzureSqlDatabase1_connectionString": {
 						"value": "[parameters('AzureSqlDatabase1_connectionString')]"
 					},
-					"SqlServer1_connectionString": {
-						"value": "[parameters('SqlServer1_connectionString')]"
-					},
 					"KVforadventureworksdb_properties_typeProperties_baseUrl": {
 						"value": "[parameters('KVforadventureworksdb_properties_typeProperties_baseUrl')]"
 					},
+					"lk_wetherrestAPI_properties_typeProperties_url": {
+						"value": "[parameters('lk_wetherrestAPI_properties_typeProperties_url')]"
+					},
 					"Adventureworksazuresql_properties_typeProperties_connectionString_secretName": {
 						"value": "[parameters('Adventureworksazuresql_properties_typeProperties_connectionString_secretName')]"
+					},
+					"AzureSqlDatabase2_properties_typeProperties_connectionString_secretName": {
+						"value": "[parameters('AzureSqlDatabase2_properties_typeProperties_connectionString_secretName')]"
+					},
+					"SqlServer2_properties_typeProperties_connectionString_secretName": {
+						"value": "[parameters('SqlServer2_properties_typeProperties_connectionString_secretName')]"
+					},
+					"lk_azuresqldb_properties_typeProperties_connectionString_secretName": {
+						"value": "[parameters('lk_azuresqldb_properties_typeProperties_connectionString_secretName')]"
+					},
+					"lkforazuresqldb_properties_typeProperties_connectionString_secretName": {
+						"value": "[parameters('lkforazuresqldb_properties_typeProperties_connectionString_secretName')]"
 					},
 					"lsforstaorageaccount_properties_typeProperties_connectionString_secretName": {
 						"value": "[parameters('lsforstaorageaccount_properties_typeProperties_connectionString_secretName')]"
@@ -86,6 +114,26 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "RealtimescenariosforADF_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'RealtimescenariosforADF_ArmTemplate_0')]"
+			]
 		}
 	]
 }

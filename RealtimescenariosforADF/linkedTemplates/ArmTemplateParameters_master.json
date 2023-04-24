@@ -14,14 +14,26 @@
 		"AzureSqlDatabase1_connectionString": {
 			"value": ""
 		},
-		"SqlServer1_connectionString": {
-			"value": ""
-		},
 		"Adventureworksazuresql_properties_typeProperties_connectionString_secretName": {
 			"value": "@pipeline().parameters.CopyActivitySQLDBConnectionString"
 		},
+		"AzureSqlDatabase2_properties_typeProperties_connectionString_secretName": {
+			"value": "sqldbconnectionstring"
+		},
 		"KVforadventureworksdb_properties_typeProperties_baseUrl": {
 			"value": "https://kv-learning-002.vault.azure.net/"
+		},
+		"SqlServer2_properties_typeProperties_connectionString_secretName": {
+			"value": "sqldbfwkdbconnectionstring"
+		},
+		"lk_azuresqldb_properties_typeProperties_connectionString_secretName": {
+			"value": "sqldbconnectionstring"
+		},
+		"lk_wetherrestAPI_properties_typeProperties_url": {
+			"value": "https://dummy.restapiexample.com"
+		},
+		"lkforazuresqldb_properties_typeProperties_connectionString_secretName": {
+			"value": "@pipeline().parameters.CopyActivitySQLDBdestinationConnectionString"
 		},
 		"lsforstaorageaccount_properties_typeProperties_connectionString_secretName": {
 			"value": "kvforstorageaccount"
