@@ -54,7 +54,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"pipeline": {
-									"referenceName": "pl_incrementalload",
+									"referenceName": "pl_incrementalloadsqltosql",
 									"type": "PipelineReference"
 								},
 								"waitOnCompletion": true,
