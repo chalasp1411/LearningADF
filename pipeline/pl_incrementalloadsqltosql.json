@@ -32,15 +32,17 @@
 						"partitionOption": "None"
 					},
 					"sink": {
-						"type": "DelimitedTextSink",
-						"storeSettings": {
-							"type": "AzureBlobStorageWriteSettings"
+						"type": "AzureSqlSink",
+						"writeBehavior": "upsert",
+						"upsertSettings": {
+							"useTempDB": true,
+							"keys": {
+								"value": "@activity('lkgetnewwatermarkvalue').output",
+								"type": "Expression"
+							}
 						},
-						"formatSettings": {
-							"type": "DelimitedTextWriteSettings",
-							"quoteAllText": true,
-							"fileExtension": ".txt"
-						}
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
 					},
 					"enableStaging": false,
 					"translator": {
@@ -60,7 +62,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "ds_adk_csv",
+						"referenceName": "ds_adk_table_sqldb",
 						"type": "DatasetReference"
 					}
 				]
