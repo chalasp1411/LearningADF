@@ -36,10 +36,9 @@
 						"writeBehavior": "upsert",
 						"upsertSettings": {
 							"useTempDB": true,
-							"keys": {
-								"value": "@activity('lkgetnewwatermarkvalue').output.value",
-								"type": "Expression"
-							}
+							"keys": [
+								"ModifiedDate"
+							]
 						},
 						"sqlWriterUseTableLock": false,
 						"disableMetricsCollection": false
