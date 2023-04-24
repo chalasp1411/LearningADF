@@ -222,14 +222,6 @@
 			"CopyActivitySQLDBConnectionString": {
 				"type": "string",
 				"defaultValue": "Adventureworksdbconnectionstring"
-			},
-			"CopyActivitySQLdestinationable": {
-				"type": "string",
-				"defaultValue": "Address"
-			},
-			"CopyActivitySQLDBdestinationConnectionString": {
-				"type": "string",
-				"defaultValue": "sqldb"
 			}
 		},
 		"annotations": [],
