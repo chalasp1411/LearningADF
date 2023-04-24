@@ -94,7 +94,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderStoredProcedureName": "[dbo].[uspGetCopyActivitySQLToADLS]",
+						"sqlReaderStoredProcedureName": "[dbo].[uspGetCopyActivitySQLToSQL]",
 						"storedProcedureParameters": {
 							"CopyActivitySQLTable": {
 								"type": "String",
@@ -216,7 +216,7 @@
 		"parameters": {
 			"CopyActivitySQLTable": {
 				"type": "string",
-				"defaultValue": "SalesLT.Address"
+				"defaultValue": "[SalesLT].[Address]"
 			},
 			"CopyActivitySQLDBConnectionString": {
 				"type": "string",
