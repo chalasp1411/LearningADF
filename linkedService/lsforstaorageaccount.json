@@ -1,6 +1,5 @@
 {
 	"name": "lsforstaorageaccount",
-	"type": "Microsoft.DataFactory/factories/linkedservices",
 	"properties": {
 		"annotations": [],
 		"type": "AzureBlobStorage",
@@ -11,8 +10,9 @@
 					"referenceName": "KVforadventureworksdb",
 					"type": "LinkedServiceReference"
 				},
-				"secretName": "kvforstorageaccount"
+				"secretName": "sqldbconnectionstring"
 			}
 		}
-	}
+	},
+	"type": "Microsoft.DataFactory/factories/linkedservices"
 }
