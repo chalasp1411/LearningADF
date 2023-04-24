@@ -37,7 +37,7 @@
 						"upsertSettings": {
 							"useTempDB": true,
 							"keys": {
-								"value": "@activity('lkgetnewwatermarkvalue').output",
+								"value": "@activity('lkgetnewwatermarkvalue').output.value",
 								"type": "Expression"
 							}
 						},
