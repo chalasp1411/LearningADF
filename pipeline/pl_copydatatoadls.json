@@ -107,7 +107,7 @@
 			},
 			"CopyActivitySQLDBConnectionString": {
 				"type": "string",
-				"defaultValue": "kvforstorageaccount"
+				"defaultValue": "Adventureworksdbconnectionstring"
 			}
 		},
 		"annotations": [],
