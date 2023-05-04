@@ -487,11 +487,11 @@
 				"parameters": {
 					"CopyActivitySQLTable": {
 						"type": "string",
-						"defaultValue": "SalesLT.Address"
+						"defaultValue": "SalesLT.ProductModel"
 					},
 					"CopyActivitySQLDBConnectionString": {
 						"type": "string",
-						"defaultValue": "kvforstorageaccount"
+						"defaultValue": "Adventureworksdbconnectionstring"
 					}
 				},
 				"annotations": [],
