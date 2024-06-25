@@ -1,0 +1,9 @@
+{
+	"name": "spk2024",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "96fb189f-9cbd-4fa7-b2fb-0b2655d814da",
+		"tenantId": "33df5c98-f8b2-48c3-9f7b-f0a462f0a696"
+	}
+}
